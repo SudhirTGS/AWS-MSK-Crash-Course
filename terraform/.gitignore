@@ -1,0 +1,48 @@
+# Terraform files to ignore
+*.tfstate
+*.tfstate.*
+*.tfvars.json
+.terraform/
+.terraform.lock.hcl
+terraform.tfplan
+terraform.tfplan.*
+
+# AWS credentials and sensitive files
+aws-credentials.tf
+.aws/
+*.pem
+*.key
+
+# Environment-specific files that may contain secrets
+secrets.auto.tfvars
+prod.auto.tfvars
+staging.auto.tfvars
+personal.auto.tfvars
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Logs
+*.log
+terraform.log
+
+# Backup files
+*.backup
+*.bak
+
+# Temporary files
+*.tmp
+temp/
