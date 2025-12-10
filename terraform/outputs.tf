@@ -1,4 +1,25 @@
-# Terraform Outputs for MSK Cluster
+# Terraform Outputs
+
+# Subnet Information
+output "msk_private_subnet_ids" {
+  description = "IDs of the MSK private subnets."
+  value       = aws_subnet.msk_private_subnets[*].id
+}
+
+output "msk_private_subnet_cidrs" {
+  description = "CIDR blocks of the MSK private subnets."
+  value       = aws_subnet.msk_private_subnets[*].cidr_block
+}
+
+output "public_subnet_id" {
+  description = "ID of the public subnet."
+  value       = aws_subnet.public_subnet.id
+}
+
+output "public_subnet_cidr" {
+  description = "CIDR block of the public subnet."
+  value       = aws_subnet.public_subnet.cidr_block
+}
 
 # VPC Information
 output "vpc_id" {
@@ -16,17 +37,7 @@ output "vpc_arn" {
   value       = aws_vpc.msk_vpc.arn
 }
 
-# Subnet Information
-output "msk_subnet_ids" {
-  description = "IDs of the subnets used for MSK brokers"
-  value       = aws_subnet.msk_subnets[*].id
-}
-
-output "msk_subnet_cidrs" {
-  description = "CIDR blocks of the MSK subnets"
-  value       = aws_subnet.msk_subnets[*].cidr_block
-}
-
+# Availability Zones
 output "availability_zones" {
   description = "Availability zones used by the cluster"
   value       = slice(data.aws_availability_zones.available.names, 0, 3)
@@ -125,7 +136,7 @@ output "connection_info" {
     zookeeper_hosts     = aws_msk_cluster.msk_cluster.zookeeper_connect_string
     vpc_id              = aws_vpc.msk_vpc.id
     security_group_id   = aws_security_group.msk_sg.id
-    subnets             = aws_subnet.msk_subnets[*].id
+    subnets             = aws_subnet.msk_private_subnets[*].id
   }
 }
 
@@ -140,7 +151,7 @@ output "deployment_summary" {
     instance_type        = "kafka.t3.small"
     broker_count         = 3
     storage_size_gb      = 100
-    nat_gateways_enabled = false
+    nat_gateways_enabled = true
     iam_auth_enabled     = true
     encryption_enabled   = true
     monitoring_level     = "PER_BROKER"
